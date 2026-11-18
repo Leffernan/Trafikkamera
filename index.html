@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="nn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#F7F3E9">
+  <meta name="description" content="Trafikkamera frå Statens vegvesen i Bygdebladet-distriktet.">
+  <title>Bygdebladet Trafikk</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="0" height="0" style="position:absolute">
+    <symbol id="i-expand" viewBox="0 0 24 24"><path d="M14 4h6v6m0-6-6 6M10 20H4v-6m0 6 6-6"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5m-4.4.2a7.6 7.6 0 0 1 13-5.4l2.1 2.3m-.3 2.8a7.6 7.6 0 0 1-13 5.4L4.3 15"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="m3 16 5-5 4 4 3-3 6 6"/><circle cx="15.5" cy="8.5" r="1"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="m15 6-6 6 6 6"/></symbol>
+    <symbol id="i-next" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+  </svg>
+  <header class="site-header">
+    <div class="shell masthead"><strong>BYGDEBLADET</strong><span>TRAFIKK</span></div>
+  </header>
+  <main class="shell">
+    <div class="intro">
+      <h1>Trafikk<span>kamera</span></h1>
+      <p>Sjå veg- og føreforhold i Bygdebladet-distriktet.</p>
+    </div>
+    <div class="toolbar" hidden>
+      <div class="filters" role="group" aria-label="Filtrer trafikkamera etter område">
+        <button type="button" data-area="alle" aria-pressed="true">Alle</button>
+        <button type="button" data-area="vestnes" aria-pressed="false">Vestnes</button>
+        <button type="button" data-area="alesund" aria-pressed="false">Ålesund</button>
+        <button type="button" data-area="haram" aria-pressed="false">Haram</button>
+        <button type="button" data-area="fjord" aria-pressed="false">Fjord</button>
+      </div>
+      <button type="button" class="refresh" id="refresh-grid">
+        <svg class="icon" aria-hidden="true"><use href="#i-refresh"/></svg>Oppdater bileta
+      </button>
+    </div>
+    <p id="result-count" class="result-count" role="status" hidden></p>
+    <div class="grid" id="camera-grid">
+      <button type="button" class="camera" data-area="vestnes" aria-haspopup="dialog">
+        <span class="image-frame">
+          <img src="https://kamera.atlas.vegvesen.no/api/images/1529008_1" alt="" loading="eager" decoding="async">
+          <span class="image-message"><svg class="icon" aria-hidden="true"><use href="#i-image"/></svg>Biletet er utilgjengeleg akkurat no</span>
+        </span>
+        <span class="camera-caption">
+          <span>
+            <strong class="camera-title">Ørskogfjellet</strong>
+            <span class="camera-direction">Retning Ålesund</span>
+          </span>
+          <span class="open-icon"><svg class="icon" aria-hidden="true"><use href="#i-expand"/></svg></span>
+        </span>
+      </button>
+      <button type="button" class="camera" data-area="vestnes" aria-haspopup="dialog">
+        <span class="image-frame">
+          <img src="https://kamera.atlas.vegvesen.no/api/images/3000034_1" alt="" loading="eager" decoding="async">
+          <span class="image-message"><svg class="icon" aria-hidden="true"><use href="#i-image"/></svg>Biletet er utilgjengeleg akkurat no</span>
+        </span>
+        <span class="camera-caption">
+          <span>
+            <strong class="camera-title">Furneset ferjekai</strong>
+          </span>
+          <span class="open-icon"><svg class="icon" aria-hidden="true"><use href="#i-expand"/></svg></span>
+        </span>
+      </button>
+      <button type="button" class="camera" data-area="vestnes" aria-haspopup="dialog">
+        <span class="image-frame">
+          <img src="https://kamera.atlas.vegvesen.no/api/images/1529022_1" alt="" loading="eager" decoding="async">
+          <span class="image-message"><svg class="icon" aria-hidden="true"><use href="#i-image"/></svg>Biletet er utilgjengeleg akkurat no</span>
+        </span>
+        <span class="camera-caption">
+          <span>
+            <strong class="camera-title">Tresfjordbrua</strong>
+            <span class="camera-direction">Retning Åndalsnes</span>
+          </span>
+          <span class="open-icon"><svg class="icon" aria-hidden="true"><use href="#i-expand"/></svg></span>
+        </span>
+      </button>
+      <button type="button" class="camera" data-area="alesund" aria-haspopup="dialog">
+        <span class="image-frame">
+          <img src="https://kamera.atlas.vegvesen.no/api/images/1529002_1" alt="" loading="lazy" decoding="async">
+          <span class="image-message"><svg class="icon" aria-hidden="true"><use href="#i-image"/></svg>Biletet er utilgjengeleg akkurat no</span>
+        </span>
+        <span class="camera-caption">
+          <span>
+            <strong class="camera-title">Dragsundet</strong>
+            <span class="camera-direction">Retning Ålesund</span>
+          </span>
+          <span class="open-icon"><svg class="icon" aria-hidden="true"><use href="#i-expand"/></svg></span>
+        </span>
+      </button>
+      <button type="button" class="camera" data-area="alesund" aria-haspopup="dialog">
+        <span class="image-frame">
+          <img src="https://kamera.atlas.vegvesen.no/api/images/1529010_1" alt="" loading="lazy" decoding="async">
+          <span class="image-message"><svg class="icon" aria-hidden="true"><use href="#i-image"/></svg>Biletet er utilgjengeleg akkurat no</span>
+        </span>
+        <span class="camera-caption">
+          <span>
+            <strong class="camera-title">Brusdalen</strong>
+            <span class="camera-direction">Retning Ålesund</span>
+          </span>
+          <span class="open-icon"><svg class="icon" aria-hidden="true"><use href="#i-expand"/></svg></span>
+        </span>
+      </button>
+      <button type="button" class="camera" data-area="haram" aria-haspopup="dialog">
+        <span class="image-frame">
+          <img src="https://kamera.atlas.vegvesen.no/api/images/3001004_2" alt="" loading="lazy" decoding="async">
+          <span class="image-message"><svg class="icon" aria-hidden="true"><use href="#i-image"/></svg>Biletet er utilgjengeleg akkurat no</span>
+        </span>
+        <span class="camera-caption">
+          <span>
+            <strong class="camera-title">Remmefjell</strong>
+            <span class="camera-direction">Retning Brattvåg</span>
+          </span>
+          <span class="open-icon"><svg class="icon" aria-hidden="true"><use href="#i-expand"/></svg></span>
+        </span>
+      </button>
+      <button type="button" class="camera" data-area="haram" aria-haspopup="dialog">
+        <span class="image-frame">
+          <img src="https://kamera.atlas.vegvesen.no/api/images/3000649_2" alt="" loading="lazy" decoding="async">
+          <span class="image-message"><svg class="icon" aria-hidden="true"><use href="#i-image"/></svg>Biletet er utilgjengeleg akkurat no</span>
+        </span>
+        <span class="camera-caption">
+          <span>
+            <strong class="camera-title">Lepsøybrua</strong>
+            <span class="camera-direction">Retning Lepsøy</span>
+          </span>
+          <span class="open-icon"><svg class="icon" aria-hidden="true"><use href="#i-expand"/></svg></span>
+        </span>
+      </button>
+      <button type="button" class="camera" data-area="haram" aria-haspopup="dialog">
+        <span class="image-frame">
+          <img src="https://kamera.atlas.vegvesen.no/api/images/3000649_1" alt="" loading="lazy" decoding="async">
+          <span class="image-message"><svg class="icon" aria-hidden="true"><use href="#i-image"/></svg>Biletet er utilgjengeleg akkurat no</span>
+        </span>
+        <span class="camera-caption">
+          <span>
+            <strong class="camera-title">Lepsøybrua</strong>
+            <span class="camera-direction">Retning Skjeltene</span>
+          </span>
+          <span class="open-icon"><svg class="icon" aria-hidden="true"><use href="#i-expand"/></svg></span>
+        </span>
+      </button>
+      <button type="button" class="camera" data-area="alesund" aria-haspopup="dialog">
+        <span class="image-frame">
+          <img src="https://kamera.atlas.vegvesen.no/api/images/1529001_1" alt="" loading="lazy" decoding="async">
+          <span class="image-message"><svg class="icon" aria-hidden="true"><use href="#i-image"/></svg>Biletet er utilgjengeleg akkurat no</span>
+        </span>
+        <span class="camera-caption">
+          <span>
+            <strong class="camera-title">E136 Ålesund</strong>
+            <span class="camera-direction">Retning Ålesund</span>
+          </span>
+          <span class="open-icon"><svg class="icon" aria-hidden="true"><use href="#i-expand"/></svg></span>
+        </span>
+      </button>
+      <button type="button" class="camera" data-area="fjord" aria-haspopup="dialog">
+        <span class="image-frame">
+          <img src="https://kamera.atlas.vegvesen.no/api/images/1529015_1" alt="" loading="lazy" decoding="async">
+          <span class="image-message"><svg class="icon" aria-hidden="true"><use href="#i-image"/></svg>Biletet er utilgjengeleg akkurat no</span>
+        </span>
+        <span class="camera-caption">
+          <span>
+            <strong class="camera-title">Liabygda</strong>
+          </span>
+          <span class="open-icon"><svg class="icon" aria-hidden="true"><use href="#i-expand"/></svg></span>
+        </span>
+      </button>
+    </div>
+    <footer class="source-bar">
+      <p>Kamerabilete frå Statens vegvesen. Bileta blir oppdaterte med varierande mellomrom.</p>
+      <a href="https://www.vegvesen.no/trafikk" target="_blank" rel="noopener">Vegvesen trafikk <span aria-hidden="true">↗</span></a>
+    </footer>
+  </main>
+
+  <dialog id="camera-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-direction">
+    <header class="dialog-header">
+      <div>
+        <h2 id="dialog-title"></h2>
+        <p id="dialog-direction" class="dialog-direction"></p>
+      </div>
+      <button type="button" class="close-button" aria-label="Lukk kameravisninga" autofocus>
+        <svg class="icon" aria-hidden="true"><use href="#i-close"/></svg>
+      </button>
+    </header>
+    <div class="image-frame dialog-image">
+      <img id="dialog-image" alt="">
+      <span class="image-message"><svg class="icon" aria-hidden="true"><use href="#i-image"/></svg>Biletet er utilgjengeleg akkurat no</span>
+    </div>
+    <div class="dialog-actions">
+      <button type="button" id="prev-camera"><svg class="icon" aria-hidden="true"><use href="#i-back"/></svg>Førre</button>
+      <span id="dialog-count" class="dialog-count" aria-live="polite"></span>
+      <button type="button" id="next-camera">Neste<svg class="icon" aria-hidden="true"><use href="#i-next"/></svg></button>
+      <button type="button" class="refresh" id="refresh-camera"><svg class="icon" aria-hidden="true"><use href="#i-refresh"/></svg>Oppdater biletet</button>
+    </div>
+  </dialog>
+  <div class="sr-only" id="refresh-status" role="status"></div>
+</body>
+</html>
