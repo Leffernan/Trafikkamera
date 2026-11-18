@@ -1,7 +1,5 @@
 (() => {
   const cards = [...document.querySelectorAll('.camera')];
-  const filters = [...document.querySelectorAll('.filters button')];
-  const count = document.querySelector('#result-count');
   const dialog = document.querySelector('#camera-dialog');
   const dialogTitle = document.querySelector('#dialog-title');
   const dialogDirection = document.querySelector('#dialog-direction');
@@ -9,8 +7,6 @@
   const dialogCount = document.querySelector('#dialog-count');
   const prev = document.querySelector('#prev-camera');
   const next = document.querySelector('#next-camera');
-  const refreshStatus = document.querySelector('#refresh-status');
-  let visibleCards = cards;
   let activeCard;
   let triggerCard;
   let pointerDownOnBackdrop = false;
@@ -34,41 +30,28 @@
     activeCard = card;
     const title = card.querySelector('.camera-title').textContent;
     const direction = card.querySelector('.camera-direction')?.textContent || '';
-    const index = visibleCards.indexOf(card);
+    const index = cards.indexOf(card);
     dialogTitle.textContent = title;
     dialogDirection.textContent = direction;
     dialogDirection.hidden = !direction;
     dialogImage.alt = direction ? title + ' - ' + direction : title;
     requestImage(dialogImage, card.querySelector('img').src);
-    dialogCount.textContent = (index + 1) + ' av ' + visibleCards.length;
+    dialogCount.textContent = (index + 1) + ' av ' + cards.length;
     prev.disabled = index === 0;
-    next.disabled = index === visibleCards.length - 1;
+    next.disabled = index === cards.length - 1;
   }
 
   function moveCamera(step) {
-    const card = visibleCards[visibleCards.indexOf(activeCard) + step];
+    const card = cards[cards.indexOf(activeCard) + step];
     if (card) showCamera(card);
   }
 
-  function filterBy(button) {
-    const area = button.dataset.area;
-    for (const item of filters) item.setAttribute('aria-pressed', item === button);
-    for (const card of cards) card.hidden = area !== 'alle' && card.dataset.area !== area;
-    visibleCards = cards.filter(card => !card.hidden);
-    count.textContent = area === 'alle'
-      ? cards.length + ' kamera'
-      : visibleCards.length + ' av ' + cards.length + ' kamera';
-  }
-
-  function reloadImages(selection) {
-    const timestamp = Date.now();
-    for (const card of selection) {
-      const img = card.querySelector('img');
-      const url = new URL(img.src);
-      url.searchParams.set('oppdatert', timestamp);
-      requestImage(img, url);
-      if (dialog.open && card === activeCard) requestImage(dialogImage, url);
-    }
+  function reloadCamera() {
+    const img = activeCard.querySelector('img');
+    const url = new URL(img.src);
+    url.searchParams.set('oppdatert', Date.now());
+    requestImage(img, url);
+    requestImage(dialogImage, url);
   }
 
   // The article wrapper listens only to this iframe and uses the same
@@ -101,16 +84,7 @@
   }
 
   watchImage(dialogImage);
-  for (const filter of filters) filter.addEventListener('click', () => filterBy(filter));
-  filterBy(filters[0]);
-  count.hidden = false;
-  document.querySelector('.toolbar').hidden = false;
-
-  document.querySelector('#refresh-grid').addEventListener('click', () => {
-    reloadImages(visibleCards);
-    refreshStatus.textContent = 'Hentar kamerabileta på nytt.';
-  });
-  document.querySelector('#refresh-camera').addEventListener('click', () => reloadImages([activeCard]));
+  document.querySelector('#refresh-camera').addEventListener('click', reloadCamera);
   dialog.querySelector('.close-button').addEventListener('click', () => dialog.close());
   prev.addEventListener('click', () => moveCamera(-1));
   next.addEventListener('click', () => moveCamera(1));

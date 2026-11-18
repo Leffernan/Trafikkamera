@@ -4,7 +4,6 @@
   --ink: #141414;
   --muted: #665f57;
   --red: #b51b25;
-  --red-dark: #951620;
   --line: #d8d0c2;
   --dark: #202020;
   font: 16px/1.5 Lato, Arial, sans-serif;
@@ -22,10 +21,6 @@ button { color: inherit; font: inherit; cursor: pointer; }
 :focus-visible { outline: 3px solid var(--red); outline-offset: 3px; }
 .shell { width: min(1120px, calc(100% - clamp(28px, 6vw, 64px))); margin-inline: auto; }
 .icon { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
-.site-header { border-top: 5px solid var(--red); border-bottom: 1px solid var(--line); }
-.masthead { display: flex; align-items: center; gap: 12px; min-height: 63px; }
-.masthead strong { font-size: 1.24rem; font-weight: 900; letter-spacing: -.045em; }
-.masthead span { border-left: 1px solid var(--line); padding-left: 12px; color: var(--red); font-size: .73rem; font-weight: 900; letter-spacing: .13em; }
 .intro { padding: clamp(24px, 4.5vw, 49px) 0 clamp(22px, 3vw, 32px); }
 h1 {
   margin-bottom: 9px;
@@ -36,19 +31,7 @@ h1 {
 }
 h1 span { color: var(--red); }
 .intro p { font-size: clamp(1rem, 2.1vw, 1.13rem); }
-.toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px 18px;
-  padding: 8px;
-  border: 1px solid var(--line);
-  border-radius: 13px;
-  background: #eee8db;
-}
-.filters, .gallery-actions { display: flex; flex-wrap: wrap; gap: 6px; }
-.toolbar button, .dialog-actions button {
+.dialog-actions button {
   min-height: 42px;
   padding: 8px 13px;
   border: 1px solid #c7bdad;
@@ -57,12 +40,9 @@ h1 span { color: var(--red); }
   font-size: .87rem;
   font-weight: 900;
 }
-.toolbar button:hover, .dialog-actions button:not(:disabled):hover { border-color: var(--red); color: var(--red); }
-.filters button[aria-pressed="true"] { background: var(--red); border-color: var(--red); color: white; }
-.filters button[aria-pressed="true"]:hover { background: var(--red-dark); }
+.dialog-actions button:not(:disabled):hover { border-color: var(--red); color: var(--red); }
 .refresh { display: inline-flex; align-items: center; gap: 7px; }
 .refresh .icon { color: var(--red); }
-.result-count { margin: 13px 0 10px; color: var(--muted); font-size: .85rem; }
 .grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -137,14 +117,12 @@ dialog::backdrop { background: #302b22a8; }
 .dialog-actions button:disabled { opacity: .48; cursor: default; }
 .dialog-actions .refresh { margin-left: auto; }
 .dialog-count { margin: 0 3px; color: var(--muted); white-space: nowrap; font-size: .83rem; font-variant-numeric: tabular-nums; }
-.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; white-space: nowrap; clip-path: inset(50%); }
 @media (max-width: 950px) {
   .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 555px) {
   .grid { grid-template-columns: 1fr; }
-  .masthead { min-height: 54px; }
-  .toolbar button, .dialog-actions button { padding-inline: 10px; }
+  .dialog-actions button { padding-inline: 10px; }
   .dialog-actions .refresh { margin-left: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
